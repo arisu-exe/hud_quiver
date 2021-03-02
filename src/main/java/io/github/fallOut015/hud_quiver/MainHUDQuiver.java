@@ -91,51 +91,63 @@ public class MainHUDQuiver {
                 List<Integer> skips = Lists.newLinkedList();
                 int xMultiplier = 0;
 
-                for(int i = 0; i < readyArrows.size(); ++ i) {
-                    if(skips.contains(i)) {
-                        continue;
-                    }
+                // TODO render multiple arrows for each stack being combined
 
-                    ItemStack readyArrow = readyArrows.get(i);
-                    int x = 24 * xMultiplier + 16, y = 16;
-
+                if(readyArrows.size() == 0) {
                     event.getMatrixStack().push();
-                    event.getMatrixStack().translate(x, y, 1);
-                    event.getMatrixStack().scale(16, -16, 1);
-                    IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-                    RenderSystem.enableBlend();
-                    Minecraft.getInstance().getItemRenderer().renderItem(readyArrow, ItemCameraTransforms.TransformType.GUI, 15728880, OverlayTexture.NO_OVERLAY, event.getMatrixStack(), buffer);
-                    RenderSystem.disableBlend();
-                    buffer.finish();
+                    event.getMatrixStack().translate(0, 0, 1);
+                    AbstractGui.drawString(event.getMatrixStack(), Minecraft.getInstance().fontRenderer, new StringTextComponent("0"), 19, 17, 16733525);
                     event.getMatrixStack().pop();
-
-                    int count = readyArrow.getCount();
-
-                    for(int j = i + 1; j < readyArrows.size(); ++ j) {
-                        ItemStack nextArrow = readyArrows.get(j);
-                        if(nextArrow.isItemEqual(readyArrow) && ItemStack.areItemStackTagsEqual(nextArrow, readyArrow)) {
-                            count += nextArrow.getCount();
-                            skips.add(j);
-                        } else {
-                            break;
+                } else {
+                    for(int i = 0; i < readyArrows.size(); ++ i) {
+                        if(skips.contains(i)) {
+                            continue;
                         }
-                    }
 
-                    event.getMatrixStack().push();
-                    if(player.isCreative() || readyArrow.getItem() instanceof ArrowItem && ((ArrowItem) readyArrow.getItem()).isInfinite(readyArrow, playerHand, player)) {
+                        ItemStack readyArrow = readyArrows.get(i);
+                        int x = 24 * xMultiplier + 16, y = 16;
+
                         event.getMatrixStack().push();
-                        event.getMatrixStack().translate(x + 3, y + 5, 0);
-                        Minecraft.getInstance().getTextureManager().bindTexture(WIDGETS);
-                        AbstractGui.blit(event.getMatrixStack(), -6, -4, 24, 0, 12, 8, 36, 24);
+                        event.getMatrixStack().translate(x, y, i + 1);
+                        event.getMatrixStack().scale(16, -16, 1);
+                        IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+                        // TODO brighten
+                        // TODO half opacity other arrows
+                        RenderSystem.enableBlend();
+                        Minecraft.getInstance().getItemRenderer().renderItem(readyArrow, ItemCameraTransforms.TransformType.GUI, 15728880, OverlayTexture.NO_OVERLAY, event.getMatrixStack(), buffer);
+                        RenderSystem.disableBlend();
+                        buffer.finish();
                         event.getMatrixStack().pop();
-                    } else {
-                        boolean using = player.getItemInUseCount() > 0 && readyArrow == player.findAmmo(playerHand);
-                        String displayCount = using ? String.valueOf(count - 1) : String.valueOf(count); // TODO make text red is 0 is remaining
-                        AbstractGui.drawString(event.getMatrixStack(), Minecraft.getInstance().fontRenderer, new StringTextComponent(displayCount), x - 3, y + 1, using ? 16777045 : 16777215); // TODO anchor text to right alignment
-                    }
-                    event.getMatrixStack().pop();
 
-                    ++ xMultiplier;
+                        int count = readyArrow.getCount();
+
+                        for(int j = i + 1; j < readyArrows.size(); ++ j) {
+                            ItemStack nextArrow = readyArrows.get(j);
+                            if(nextArrow.isItemEqual(readyArrow) && ItemStack.areItemStackTagsEqual(nextArrow, readyArrow)) {
+                                count += nextArrow.getCount();
+                                skips.add(j);
+                            } else {
+                                break;
+                            }
+                        }
+
+                        event.getMatrixStack().push();
+                        if(player.isCreative() || readyArrow.getItem() instanceof ArrowItem && ((ArrowItem) readyArrow.getItem()).isInfinite(readyArrow, playerHand, player)) {
+                            event.getMatrixStack().translate(x + 3, y + 5, i + 1 + readyArrows.size());
+                            Minecraft.getInstance().getTextureManager().bindTexture(WIDGETS);
+                            AbstractGui.blit(event.getMatrixStack(), -6, -4, 24, 0, 12, 8, 36, 24);
+                        } else {
+                            boolean using = player.getItemInUseCount() > 0 && readyArrow == player.findAmmo(playerHand);
+                            String displayCount = using ? String.valueOf(count - 1) : String.valueOf(count);
+                            int length = displayCount.length();
+                            int color = using ? (count - 1 == 0 ? 16733525 : 16777045) : 16777215;
+                            event.getMatrixStack().translate(0, 0, i + 1 + readyArrows.size());
+                            AbstractGui.drawString(event.getMatrixStack(), Minecraft.getInstance().fontRenderer, new StringTextComponent(displayCount), x + 9 - (6 * length), y + 1, color);
+                        }
+                        event.getMatrixStack().pop();
+
+                        ++ xMultiplier;
+                    }
                 }
             }
         }
