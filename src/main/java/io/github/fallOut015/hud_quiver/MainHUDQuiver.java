@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package io.github.fallOut015.hud_quiver;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
