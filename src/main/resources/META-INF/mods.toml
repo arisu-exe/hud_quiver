@@ -1,13 +1,13 @@
 modLoader="javafml" #mandatory
 loaderVersion="[35,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 license="All rights reserved"
-issueTrackerURL="http://my.issue.tracker/" #optional
+issueTrackerURL="https://github.com/fallOut015/hud_quiver/issues" #optional
 [[mods]] #mandatory
 modId="hud_quiver" #mandatory
 version="${file.jarVersion}" #mandatory
 displayName="HUD Quiver" #mandatory
-updateJSONURL="http://myurl.me/" #optional
-displayURL="http://example.com/" #optional
+updateJSONURL="https://raw.githubusercontent.com/fallOut015/hud_quiver/main/src/main/resources/updateJSONURL.json" #optional
+displayURL="https://www.curseforge.com/minecraft/mc-mods/hud-quiver" #optional
 logoFile="hud_quiver.png" #optional
 credits="Forge, tutorial makers, and my friends" #optional
 authors="fallOut015" #optional
