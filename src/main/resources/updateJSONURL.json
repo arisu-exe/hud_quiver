@@ -1,0 +1,10 @@
+{
+  "homepage" : "https://www.curseforge.com/minecraft/mc-mods/hud-quiver/files",
+  "1.16.4" : {
+    "1.0" : "A bite-sized mod that adds an indicator for your arrows."
+  },
+  "promos" : {
+    "1.16.4-latest" : "1.0",
+    "1.16.4-recommended" : "1.0"
+  }
+}
