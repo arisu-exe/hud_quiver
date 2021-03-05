@@ -38,14 +38,6 @@ public class MainHUDQuiver {
     private static @Nullable List<ItemStack> lastReadyArrows;
     private static final ResourceLocation WIDGETS;
 
-    // TODO everything configurable
-    // TODO slot switching with ctrl scroll and ctrl num keys (ctrl is configurable)
-    // TODO effects on arrow for flame, punch, and power
-    // TODO effects on arrow for piercing
-    // TODO render multiple arrows for each stack being combined
-    // TODO ugh i have to do localization now
-    // TODO config GUI
-
     static {
         interpolation = 0;
         lastHeld = null;
@@ -262,15 +254,6 @@ public class MainHUDQuiver {
                         }
                     }
                 }
-            }
-        }
-    }
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = MODID)
-    public static class ModEvents {
-        @SubscribeEvent
-        public static void onModConfigEvent(final ModConfig.ModConfigEvent event) {
-            if(event.getConfig().getSpec() == ConfigHUDQuiver.CLIENT_SPEC) {
-                ConfigHUDQuiver.bakeConfig();
             }
         }
     }

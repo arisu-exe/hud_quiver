@@ -1,6 +1,10 @@
 package io.github.fallOut015.hud_quiver.common;
 
+import io.github.fallOut015.hud_quiver.MainHUDQuiver;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class ConfigHUDQuiver {
@@ -53,6 +57,16 @@ public class ConfigHUDQuiver {
             this.HORIZONTAL_OFFSET = builder.comment("The margin on the left of the HUD Quiver.").translation("hud_quiver.config.horizontal_offset").defineInRange("HORIZONTAL_OFFSET", 16, 16, 255);
             this.VERTICAL_OFFSET = builder.comment("The margin on the top of the HUD Quiver.").translation("hud_quiver.config.vertical_offset").defineInRange("VERTICAL_OFFSET", 16, 16, 128);
             //builder.pop();
+        }
+    }
+
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = MainHUDQuiver.MODID)
+    public static class ModEvents {
+        @SubscribeEvent
+        public static void onModConfigEvent(final ModConfig.ModConfigEvent event) {
+            if(event.getConfig().getSpec() == ConfigHUDQuiver.CLIENT_SPEC) {
+                ConfigHUDQuiver.bakeConfig();
+            }
         }
     }
 }
