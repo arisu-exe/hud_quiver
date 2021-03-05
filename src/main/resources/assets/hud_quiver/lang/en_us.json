@@ -1,0 +1,6 @@
+{
+  "hud_quiver.config.animate" : "Animate",
+  "hud_quiver.config.hide" : "Hide",
+  "hud_quiver.config.left_offset" : "Left Offset",
+  "hud_quiver.config.top_offset" : "Top Offset"
+}
