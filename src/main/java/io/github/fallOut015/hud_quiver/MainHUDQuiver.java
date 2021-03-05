@@ -161,8 +161,8 @@ public class MainHUDQuiver {
                 if(readyArrows != null) {
                     if(readyArrows.size() == 0) {
                         event.getMatrixStack().push();
-                        event.getMatrixStack().translate(0, 0, 1);
-                        AbstractGui.drawString(event.getMatrixStack(), Minecraft.getInstance().fontRenderer, new StringTextComponent("0"), 19, 17, 16733525);
+                        event.getMatrixStack().translate(0, 1, 1);
+                        AbstractGui.drawString(event.getMatrixStack(), Minecraft.getInstance().fontRenderer, new StringTextComponent("0"), Math.round(3 + left), Math.round(ConfigHUDQuiver.animates() ? bezier(interpolation, -top, top) : top), 16733525);
                         event.getMatrixStack().pop();
                     } else {
                         for(int i = 0; i < readyArrows.size(); ++ i) {
