@@ -12,10 +12,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ArrowItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.ShootableItem;
+import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
@@ -187,13 +184,21 @@ public class MainHUDQuiver {
                             RenderSystem.enableCull();
                             RenderSystem.disableDepthTest();
                             if(EnchantmentHelper.getEnchantmentLevel(Enchantments.MULTISHOT, playerHand) > 0) {
+
                                 event.getMatrixStack().push();
-                                event.getMatrixStack().translate(x - 4, y - 1, i + 1);
+                                if(readyArrow.getItem() == Items.FIREWORK_ROCKET) {
+                                    event.getMatrixStack().translate(x - 5, y + 3, i + 1);
+                                } else {
+                                    event.getMatrixStack().translate(x - 4, y - 1, i + 1);
+                                }
                                 event.getMatrixStack().scale(10, -10, 1);
                                 event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(180));
                                 event.getMatrixStack().rotate(Vector3f.XP.rotationDegrees(360));
-                                event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(-30));
-                                IRenderTypeBuffer.Impl buffer2 = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+                                if(readyArrow.getItem() == Items.FIREWORK_ROCKET) {
+                                    event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(-20));
+                                } else {
+                                    event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(-30));
+                                }                                IRenderTypeBuffer.Impl buffer2 = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
                                 RenderSystem.enableDepthTest();
                                 RenderSystem.disableCull();
                                 Minecraft.getInstance().getItemRenderer().renderItem(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, event.getMatrixStack(), buffer);
@@ -203,11 +208,19 @@ public class MainHUDQuiver {
                                 RenderSystem.disableDepthTest();
 
                                 event.getMatrixStack().push();
-                                event.getMatrixStack().translate(x + 1, y + 4, i + 1);
+                                if(readyArrow.getItem() == Items.FIREWORK_ROCKET) {
+                                    event.getMatrixStack().translate(x + 5, y + 3, i + 1);
+                                } else {
+                                    event.getMatrixStack().translate(x + 1, y + 4, i + 1);
+                                }
                                 event.getMatrixStack().scale(10, -10, 1);
                                 event.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(180));
                                 event.getMatrixStack().rotate(Vector3f.XP.rotationDegrees(360));
-                                event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(30));
+                                if(readyArrow.getItem() == Items.FIREWORK_ROCKET) {
+                                    event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(20));
+                                } else {
+                                    event.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(30));
+                                }
                                 IRenderTypeBuffer.Impl buffer3 = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
                                 RenderSystem.enableDepthTest();
                                 RenderSystem.disableCull();
