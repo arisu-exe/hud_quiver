@@ -1,14 +1,15 @@
 {
   "homepage" : "https://www.curseforge.com/minecraft/mc-mods/hud-quiver/files",
   "1.16.5" : {
+    "1.2" : "Added some localization, support for another mod, and some more configurable properties.",
     "1.1" : "Bumped version to 1.16.5."
   },
   "1.16.4" : {
     "1.0" : "A bite-sized mod that adds an indicator for your arrows."
   },
   "promos" : {
-    "1.16.5-latest" : "1.1",
-    "1.16.5-recommended" : "1.1",
+    "1.16.5-latest" : "1.2",
+    "1.16.5-recommended" : "1.2",
     "1.16.4-latest" : "1.0",
     "1.16.4-recommended" : "1.0"
   }
