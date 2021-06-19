@@ -9,7 +9,7 @@ displayName="HUD Quiver" #mandatory
 updateJSONURL="https://raw.githubusercontent.com/fallOut015/hud_quiver/main/src/main/resources/updateJSONURL.json" #optional
 displayURL="https://www.curseforge.com/minecraft/mc-mods/hud-quiver" #optional
 logoFile="hud_quiver.png" #optional
-credits="Forge, tutorial makers, and my friends" #optional
+credits="Forge, tutorial makers, and my friends. A special thanks to Leo3418 for making a tutorial on how to make a GUI screen for the config." #optional
 authors="fallOut015" #optional
 description='''
 A bite-sized mod that adds an indicator for your arrows.
