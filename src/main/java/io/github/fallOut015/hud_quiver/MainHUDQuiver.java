@@ -25,6 +25,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -233,9 +234,10 @@ public class MainHUDQuiver {
                                     break;
                                 }
                             }
+                            boolean hasCrossbowCeaseless = playerHand.getItem() == Items.CROSSBOW && EnchantmentHelper.getEnchantments(playerHand).keySet().stream().map(ForgeRegistryEntry::getRegistryName).anyMatch(name -> name.toString().equals("enigmaticlegacy:ceaseless"));
 
                             event.getMatrixStack().pushPose();
-                            if(player.isCreative() || readyArrow.getItem() instanceof ArrowItem && ((ArrowItem) readyArrow.getItem()).isInfinite(readyArrow, playerHand, player)) {
+                            if(hasCrossbowCeaseless || player.isCreative() || readyArrow.getItem() instanceof ArrowItem && ((ArrowItem) readyArrow.getItem()).isInfinite(readyArrow, playerHand, player)) {
                                 event.getMatrixStack().translate(x + 3, y + 5, i + 1 + readyArrows.size());
                                 Minecraft.getInstance().getTextureManager().bind(WIDGETS);
                                 AbstractGui.blit(event.getMatrixStack(), -6, -4, 24, i == 0 ? 0 : 8, 12, 8, 36, 24);
