@@ -21,8 +21,7 @@ public class ConfigHUDQuiver {
     private static boolean hide = true;
     private static int horizontal_offset = 16;
     private static int vertical_offset = 16;
-    // enum for docking side
-    // size
+    private static int size = 24;
 
     public static boolean animates() {
         return animate;
@@ -36,12 +35,32 @@ public class ConfigHUDQuiver {
     public static int getVerticalOffset() {
         return vertical_offset;
     }
+    public static int getSize() {
+        return size;
+    }
+
+    public static void setAnimates(boolean _animate) {
+        animate = _animate;
+    }
+    public static void setHides(boolean _hide) {
+        hide = _hide;
+    }
+    public static void setHorizontalOffset(int _horizontal_offset) {
+        horizontal_offset = _horizontal_offset;
+    }
+    public static void setVerticalOffset(int _vertical_offset) {
+        vertical_offset = _vertical_offset;
+    }
+    public static void setSize(int _size) {
+        size = _size;
+    }
 
     public static void bakeConfig() {
         animate = CLIENT.ANIMATE.get();
         hide = CLIENT.HIDE.get();
         horizontal_offset = CLIENT.HORIZONTAL_OFFSET.get();
         vertical_offset = CLIENT.VERTICAL_OFFSET.get();
+        size = CLIENT.SIZE.get();
     }
 
     public static class ClientConfig {
@@ -49,13 +68,15 @@ public class ConfigHUDQuiver {
         public final ForgeConfigSpec.BooleanValue HIDE;
         public final ForgeConfigSpec.IntValue HORIZONTAL_OFFSET;
         public final ForgeConfigSpec.IntValue VERTICAL_OFFSET;
+        public final ForgeConfigSpec.IntValue SIZE;
 
         public ClientConfig(ForgeConfigSpec.Builder builder) {
             //builder.push("hud_quiver");
             this.ANIMATE = builder.comment("Animate the HUD Quiver showing and hiding.").translation("hud_quiver.config.animate").define("ANIMATE", true);
             this.HIDE = builder.comment("Hide the HUD Quiver when not selecting a shootable item.").translation("hud_quiver.config.hide").define("HIDE", true);
-            this.HORIZONTAL_OFFSET = builder.comment("The margin on the left of the HUD Quiver.").translation("hud_quiver.config.horizontal_offset").defineInRange("HORIZONTAL_OFFSET", 16, 0, 2048);
-            this.VERTICAL_OFFSET = builder.comment("The margin on the top of the HUD Quiver.").translation("hud_quiver.config.vertical_offset").defineInRange("VERTICAL_OFFSET", 16, 0, 1024);
+            this.HORIZONTAL_OFFSET = builder.comment("The margin on the left of the HUD Quiver.").translation("hud_quiver.config.horizontal_offset").defineInRange("HORIZONTAL_OFFSET", 16, 0, 512);
+            this.VERTICAL_OFFSET = builder.comment("The margin on the top of the HUD Quiver.").translation("hud_quiver.config.vertical_offset").defineInRange("VERTICAL_OFFSET", 16, 0, 512);
+            this.SIZE = builder.comment("The width and height of the HUD Quiver.").translation("hud_quiver.config.size").defineInRange("SIZE", 24, 24, 192);
             //builder.pop();
         }
     }

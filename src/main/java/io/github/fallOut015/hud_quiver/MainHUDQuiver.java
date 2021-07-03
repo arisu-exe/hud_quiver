@@ -2,6 +2,7 @@ package io.github.fallOut015.hud_quiver;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
+import io.github.fallOut015.hud_quiver.client.gui.screen.ConfigScreenHUDQuiver;
 import io.github.fallOut015.hud_quiver.common.ConfigHUDQuiver;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -22,6 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -49,6 +51,7 @@ public class MainHUDQuiver {
     public MainHUDQuiver() {
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigHUDQuiver.CLIENT_SPEC);
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, screen) -> new ConfigScreenHUDQuiver(screen));
     }
 
     public static List<ItemStack> findAmmos(PlayerEntity player, ItemStack shootable) {
@@ -134,6 +137,7 @@ public class MainHUDQuiver {
 
                 event.getMatrixStack().pushPose();
                 event.getMatrixStack().translate(left, ConfigHUDQuiver.animates() ? bezier(interpolation, -top, top) : top, 0);
+                event.getMatrixStack().scale((float) ConfigHUDQuiver.getSize() / 24f, (float) ConfigHUDQuiver.getSize() / 24f, 1);
                 Minecraft.getInstance().getTextureManager().bind(WIDGETS);
                 AbstractGui.blit(event.getMatrixStack(), -12, -12, 0, 0, 24, 24, 36, 24);
                 event.getMatrixStack().popPose();
@@ -161,11 +165,12 @@ public class MainHUDQuiver {
                             }
 
                             ItemStack readyArrow = readyArrows.get(i);
-                            float x = 24 * xMultiplier + left, y = ConfigHUDQuiver.animates() ? bezier(interpolation, -top, top) : top;
+                            float x = ConfigHUDQuiver.getSize() * xMultiplier + left, y = ConfigHUDQuiver.animates() ? bezier(interpolation, -top, top) : top;
 
                             event.getMatrixStack().pushPose();
                             event.getMatrixStack().translate(x, y, i + 1);
                             event.getMatrixStack().scale(16, -16, 1);
+                            event.getMatrixStack().scale((float) ConfigHUDQuiver.getSize() / 24f, (float) ConfigHUDQuiver.getSize() / 24f, 1f);
                             event.getMatrixStack().mulPose(Vector3f.YP.rotationDegrees(180));
                             event.getMatrixStack().mulPose(Vector3f.XP.rotationDegrees(360));
                             IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
@@ -184,13 +189,15 @@ public class MainHUDQuiver {
                                     event.getMatrixStack().translate(x - 4, y - 1, i + 1);
                                 }
                                 event.getMatrixStack().scale(10, -10, 1);
+                                event.getMatrixStack().scale((float) ConfigHUDQuiver.getSize() / 24f, (float) ConfigHUDQuiver.getSize() / 24f, 1f);
                                 event.getMatrixStack().mulPose(Vector3f.YP.rotationDegrees(180));
                                 event.getMatrixStack().mulPose(Vector3f.XP.rotationDegrees(360));
                                 if(readyArrow.getItem() == Items.FIREWORK_ROCKET) {
                                     event.getMatrixStack().mulPose(Vector3f.ZP.rotationDegrees(-20));
                                 } else {
                                     event.getMatrixStack().mulPose(Vector3f.ZP.rotationDegrees(-30));
-                                }                                IRenderTypeBuffer.Impl buffer2 = Minecraft.getInstance().renderBuffers().bufferSource();
+                                }
+                                IRenderTypeBuffer.Impl buffer2 = Minecraft.getInstance().renderBuffers().bufferSource();
                                 RenderSystem.enableDepthTest();
                                 RenderSystem.disableCull();
                                 Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, event.getMatrixStack(), buffer);
@@ -223,6 +230,8 @@ public class MainHUDQuiver {
                                 RenderSystem.disableDepthTest();
                             }
 
+                            // Reminder: sharpshooter just does more damage for crossbows.
+
                             int count = readyArrow.getCount();
 
                             for(int j = i + 1; j < readyArrows.size(); ++ j) {
@@ -240,12 +249,14 @@ public class MainHUDQuiver {
                             if(hasCrossbowCeaseless || player.isCreative() || readyArrow.getItem() instanceof ArrowItem && ((ArrowItem) readyArrow.getItem()).isInfinite(readyArrow, playerHand, player)) {
                                 event.getMatrixStack().translate(x + 3, y + 5, i + 1 + readyArrows.size());
                                 Minecraft.getInstance().getTextureManager().bind(WIDGETS);
+                                event.getMatrixStack().scale((float) ConfigHUDQuiver.getSize() / 24f, (float) ConfigHUDQuiver.getSize() / 24f, 1f);
                                 AbstractGui.blit(event.getMatrixStack(), -6, -4, 24, i == 0 ? 0 : 8, 12, 8, 36, 24);
                             } else {
                                 boolean using = player.getUseItemRemainingTicks() > 0 && readyArrow == player.getProjectile(playerHand) && player.getUseItem().getItem() instanceof ShootableItem;
                                 String displayCount = using ? String.valueOf(count - 1) : String.valueOf(count);
                                 int length = displayCount.length();
                                 int color = i == 0 ? (using ? (count - 1 == 0 ? 16733525 /*red*/ : 16777045 /*yellow*/) : 16777215 /*white*/) : 10066329 /*gray*/;
+                                event.getMatrixStack().scale((float) ConfigHUDQuiver.getSize() / 24f, (float) ConfigHUDQuiver.getSize() / 24f, 1f);
                                 event.getMatrixStack().translate(0, 0, i + 1 + readyArrows.size());
                                 AbstractGui.drawString(event.getMatrixStack(), Minecraft.getInstance().font, new StringTextComponent(displayCount), Math.round(x + 9 - (6 * length)), Math.round(y + 1), color);
                             }
