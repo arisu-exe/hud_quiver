@@ -1,7 +1,7 @@
 {
   "homepage" : "https://www.curseforge.com/minecraft/mc-mods/hud-quiver/files",
   "1.16.5" : {
-    "1.2" : "Added some localization, support for another mod, and some more configurable properties.",
+    "1.2" : "Ported to 1.16.5-36.2.0. Added some localization, support for another mod, and some more configurable properties.",
     "1.1" : "Bumped version to 1.16.5."
   },
   "1.16.4" : {
