@@ -45,7 +45,7 @@ public class MainHUDQuiver {
         interpolation = 0;
         lastHeld = null;
         lastReadyArrows = null;
-        WIDGETS = new ResourceLocation("hud_quiver","textures/gui/widgets.png");
+        WIDGETS = new ResourceLocation(MODID,"textures/gui/widgets.png");
     }
 
     public MainHUDQuiver() {
