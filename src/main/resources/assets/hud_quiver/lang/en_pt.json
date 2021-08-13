@@ -1,10 +1,19 @@
 {
   "hud_quiver.config.title" : "HUD Quiver",
+
   "hud_quiver.config.animate" : "Pertty Lookin'",
   "hud_quiver.config.hide" : "Go Ar-way",
   "hud_quiver.config.fade_queue" : "Blurry Arrows",
-  "hud_quiver.config.horizontal_offset" : "Right Distance",
+  "hud_quiver.config.horizontal_offset" : "Left Distance",
   "hud_quiver.config.vertical_offset" : "Top Distance",
   "hud_quiver.config.size" : "Ye' Bigness",
-  "hud_quiver.config.speed" : "Yar Fastness"
+  "hud_quiver.config.speed" : "Yar Fastness",
+
+  "hud_quiver.config.animate.desc" : "Make yar HUD Quiver move",
+  "hud_quiver.config.hide.desc" : "Make yar HUD Quiver go away",
+  "hud_quiver.config.fade_queue.desc" : "Make ye' future arrows gray",
+  "hud_quiver.config.horizontal_offset.desc" : "Make yar distance from the left biggar",
+  "hud_quiver.config.vertical_offset.desc" : "Make yar distance from the top biggar",
+  "hud_quiver.config.size.desc" : "Make ye' size big",
+  "hud_quiver.config.speed.desc" : "Make yar speed fast"
 }

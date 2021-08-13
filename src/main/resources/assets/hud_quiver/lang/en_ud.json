@@ -1,10 +1,19 @@
 {
   "hud_quiver.config.title" : "ɹǝʌᴉnQ p∩H",
+
   "hud_quiver.config.animate" : "ǝʇɐɯᴉu∀",
   "hud_quiver.config.hide" : "ǝpᴉH",
   "hud_quiver.config.fade_queue" : "ǝnǝnQ ǝpɐℲ",
   "hud_quiver.config.horizontal_offset" : "ʇǝsɟɟO lɐʇuozᴉɹoH",
   "hud_quiver.config.vertical_offset" : "ʇǝsɟɟO lɐɔᴉʇɹǝΛ",
   "hud_quiver.config.size" : "ǝzᴉS",
-  "hud_quiver.config.speed" : "pǝǝdS"
+  "hud_quiver.config.speed" : "pǝǝdS",
+
+  "hud_quiver.config.animate.desc" : "ƃuᴉpᴉɥ puɐ ƃuᴉʍoɥs ɹǝʌᴉnQ p∩H ǝɥʇ ǝʇɐɯᴉu∀",
+  "hud_quiver.config.hide.desc" : "ɯǝʇᴉ ǝlqɐʇooɥs ɐ ƃuᴉʇɔǝlǝs ʇou uǝɥʍ ɹǝʌᴉnQ p∩H ǝɥʇ ǝpᴉH",
+  "hud_quiver.config.fade_queue.desc" : "pǝpɐɟ ǝq oʇ ɹoloɔ s,ǝnǝnb ǝɥʇ uᴉ sʍoɹɹɐ ƃuᴉlᴉɐɹʇ ǝɥʇ ʇǝS",
+  "hud_quiver.config.horizontal_offset.desc" : "ɹǝʌᴉnQ p∩H ǝɥʇ ɟo ʇɟǝl ǝɥʇ uo uᴉƃɹɐɯ ǝɥ┴",
+  "hud_quiver.config.vertical_offset.desc" : "ɹǝʌᴉnQ p∩H ǝɥʇ ɟo doʇ ǝɥʇ uo uᴉƃɹɐɯ ǝɥ┴",
+  "hud_quiver.config.size.desc" : "ɹǝʌᴉnQ p∩H ǝɥʇ ɟo ʇɥƃᴉǝɥ puɐ ɥʇpᴉʍ ǝɥ┴",
+  "hud_quiver.config.speed.desc" : "ʇno puɐ uᴉ sǝʇɐɯᴉuɐ ɹǝʌᴉnQ p∩H ǝɥʇ ɥɔᴉɥʍ ʇɐ pǝǝds ǝɥ┴"
 }

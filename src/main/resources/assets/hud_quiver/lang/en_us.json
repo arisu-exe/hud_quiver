@@ -1,10 +1,19 @@
 {
   "hud_quiver.config.title" : "HUD Quiver",
+
   "hud_quiver.config.animate" : "Animate",
   "hud_quiver.config.hide" : "Hide",
   "hud_quiver.config.fade_queue" : "Fade Queue",
   "hud_quiver.config.horizontal_offset" : "Horizontal Offset",
   "hud_quiver.config.vertical_offset" : "Vertical Offset",
   "hud_quiver.config.size" : "Size",
-  "hud_quiver.config.speed" : "Speed"
+  "hud_quiver.config.speed" : "Speed",
+
+  "hud_quiver.config.animate.desc" : "Animate the HUD Quiver showing and hiding",
+  "hud_quiver.config.hide.desc" : "Hide the HUD Quiver when not selecting a shootable item",
+  "hud_quiver.config.fade_queue.desc" : "Set the trailing arrows in the queue's color to be faded",
+  "hud_quiver.config.horizontal_offset.desc" : "The margin on the left of the HUD Quiver",
+  "hud_quiver.config.vertical_offset.desc" : "The margin on the top of the HUD Quiver",
+  "hud_quiver.config.size.desc" : "The width and height of the HUD Quiver",
+  "hud_quiver.config.speed.desc" : "The speed at which the HUD Quiver animates in and out"
 }

@@ -90,7 +90,6 @@ public class MainHUDQuiver {
         return MathHelper.clamp(((x * x) * (3 - 2 * x)) / (1 / (max - min)) + min, min, max);
     }
 
-    // TODO add config working for fade_queue
     // TODO add hover descriptions for config values (same as config file comments)
     // TODO fix spacing between hud quiver queue entries
     // TODO nyf's quiver interoperability
@@ -193,7 +192,7 @@ public class MainHUDQuiver {
                             IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
                             RenderSystem.enableDepthTest();
                             RenderSystem.disableCull();
-                            Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, matrixStack, buffer);
+                            Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 || !ConfigHUDQuiver.queueFades() ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, matrixStack, buffer);
                             buffer.endBatch();
                             matrixStack.popPose();
                             RenderSystem.enableCull();
@@ -216,7 +215,7 @@ public class MainHUDQuiver {
                                 IRenderTypeBuffer.Impl buffer2 = Minecraft.getInstance().renderBuffers().bufferSource();
                                 RenderSystem.enableDepthTest();
                                 RenderSystem.disableCull();
-                                Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, matrixStack, buffer);
+                                Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 || !ConfigHUDQuiver.queueFades() ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, matrixStack, buffer);
                                 buffer2.endBatch();
                                 matrixStack.popPose();
                                 RenderSystem.enableCull();
@@ -239,7 +238,7 @@ public class MainHUDQuiver {
                                 IRenderTypeBuffer.Impl buffer3 = Minecraft.getInstance().renderBuffers().bufferSource();
                                 RenderSystem.enableDepthTest();
                                 RenderSystem.disableCull();
-                                Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, matrixStack, buffer);
+                                Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 || !ConfigHUDQuiver.queueFades() ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, matrixStack, buffer);
                                 buffer3.endBatch();
                                 matrixStack.popPose();
                                 RenderSystem.enableCull();
@@ -265,12 +264,12 @@ public class MainHUDQuiver {
                             if(hasCrossbowCeaseless || player.isCreative() || (readyArrow.getItem() instanceof ArrowItem && ((ArrowItem) readyArrow.getItem()).isInfinite(readyArrow, playerHand, player))) {
                                 matrixStack.translate(x + 3, y + 5, i + 1 + readyArrows.size());
                                 Minecraft.getInstance().getTextureManager().bind(WIDGETS);
-                                AbstractGui.blit(matrixStack, -6, -4, 24, i == 0 ? 0 : 8, 12, 8, 36, 24);
+                                AbstractGui.blit(matrixStack, -6, -4, 24, i == 0 || !ConfigHUDQuiver.queueFades() ? 0 : 8, 12, 8, 36, 24);
                             } else {
                                 boolean using = player.getUseItemRemainingTicks() > 0 && readyArrow == player.getProjectile(playerHand) && player.getUseItem().getItem() instanceof ShootableItem;
                                 String displayCount = using ? String.valueOf(count - 1) : String.valueOf(count);
                                 int length = displayCount.length();
-                                int color = i == 0 ? (using ? (count - 1 == 0 ? 16733525 /*red*/ : 16777045 /*yellow*/) : 16777215 /*white*/) : 10066329 /*gray*/; // yay for ternaries
+                                int color = i == 0 || !ConfigHUDQuiver.queueFades() ? (using ? (count - 1 == 0 ? 16733525 /*red*/ : 16777045 /*yellow*/) : 16777215 /*white*/) : 10066329 /*gray*/; // yay for ternaries
                                 matrixStack.translate(Math.round(x + 9 - (6 * length)), Math.round(y + 1), 0);
                                 AbstractGui.drawString(matrixStack, Minecraft.getInstance().font, new StringTextComponent(displayCount), 0, 0, color);
                             }

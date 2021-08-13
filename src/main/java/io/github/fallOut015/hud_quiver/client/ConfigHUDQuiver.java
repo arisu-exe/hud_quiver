@@ -47,6 +47,7 @@ public class ConfigHUDQuiver {
         return speed;
     }
 
+    /*
     public static void setAnimates(boolean _animate) {
         animate = _animate;
     }
@@ -68,6 +69,7 @@ public class ConfigHUDQuiver {
     public static void setSpeed(int _speed) {
         speed = _speed;
     }
+    */
 
     public static void bakeConfig() {
         animate = CLIENT.ANIMATE.get();
