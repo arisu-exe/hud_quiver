@@ -2,7 +2,9 @@
   "hud_quiver.config.title" : "ɹǝʌᴉnQ p∩H",
   "hud_quiver.config.animate" : "ǝʇɐɯᴉu∀",
   "hud_quiver.config.hide" : "ǝpᴉH",
+  "hud_quiver.config.fade_queue" : "ǝnǝnQ ǝpɐℲ",
   "hud_quiver.config.horizontal_offset" : "ʇǝsɟɟO lɐʇuozᴉɹoH",
   "hud_quiver.config.vertical_offset" : "ʇǝsɟɟO lɐɔᴉʇɹǝΛ",
-  "hud_quiver.config.size" : "ǝzᴉS"
+  "hud_quiver.config.size" : "ǝzᴉS",
+  "hud_quiver.config.speed" : "pǝǝdS"
 }

@@ -2,7 +2,9 @@
   "hud_quiver.config.title" : "HUD Quiver",
   "hud_quiver.config.animate" : "Animate",
   "hud_quiver.config.hide" : "Hide",
+  "hud_quiver.config.fade_queue" : "Fade Queue",
   "hud_quiver.config.horizontal_offset" : "Horizontal Offset",
   "hud_quiver.config.vertical_offset" : "Vertical Offset",
-  "hud_quiver.config.size" : "Size"
+  "hud_quiver.config.size" : "Size",
+  "hud_quiver.config.speed" : "Speed"
 }
