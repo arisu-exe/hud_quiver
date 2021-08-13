@@ -1,4 +1,4 @@
-package io.github.fallOut015.hud_quiver.common;
+package io.github.fallOut015.hud_quiver.client;
 
 import io.github.fallOut015.hud_quiver.MainHUDQuiver;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -19,15 +19,20 @@ public class ConfigHUDQuiver {
 
     private static boolean animate = true;
     private static boolean hide = true;
+    private static boolean fade_queue = true;
     private static int horizontal_offset = 16;
     private static int vertical_offset = 16;
     private static int size = 24;
+    private static int speed = 5;
 
     public static boolean animates() {
         return animate;
     }
     public static boolean hides() {
         return hide;
+    }
+    public static boolean queueFades() {
+        return fade_queue;
     }
     public static int getHorizontalOffset() {
         return horizontal_offset;
@@ -38,12 +43,18 @@ public class ConfigHUDQuiver {
     public static int getSize() {
         return size;
     }
+    public static int getSpeed() {
+        return speed;
+    }
 
     public static void setAnimates(boolean _animate) {
         animate = _animate;
     }
     public static void setHides(boolean _hide) {
         hide = _hide;
+    }
+    public static void setQueueFades(boolean _fade_queue) {
+        fade_queue = _fade_queue;
     }
     public static void setHorizontalOffset(int _horizontal_offset) {
         horizontal_offset = _horizontal_offset;
@@ -54,29 +65,38 @@ public class ConfigHUDQuiver {
     public static void setSize(int _size) {
         size = _size;
     }
+    public static void setSpeed(int _speed) {
+        speed = _speed;
+    }
 
     public static void bakeConfig() {
         animate = CLIENT.ANIMATE.get();
         hide = CLIENT.HIDE.get();
+        fade_queue = CLIENT.FADE_QUEUE.get();
         horizontal_offset = CLIENT.HORIZONTAL_OFFSET.get();
         vertical_offset = CLIENT.VERTICAL_OFFSET.get();
         size = CLIENT.SIZE.get();
+        speed = CLIENT.SPEED.get();
     }
 
     public static class ClientConfig {
         public final ForgeConfigSpec.BooleanValue ANIMATE;
         public final ForgeConfigSpec.BooleanValue HIDE;
+        public final ForgeConfigSpec.BooleanValue FADE_QUEUE;
         public final ForgeConfigSpec.IntValue HORIZONTAL_OFFSET;
         public final ForgeConfigSpec.IntValue VERTICAL_OFFSET;
         public final ForgeConfigSpec.IntValue SIZE;
+        public final ForgeConfigSpec.IntValue SPEED;
 
         public ClientConfig(ForgeConfigSpec.Builder builder) {
             //builder.push("hud_quiver");
             this.ANIMATE = builder.comment("Animate the HUD Quiver showing and hiding.").translation("hud_quiver.config.animate").define("ANIMATE", true);
             this.HIDE = builder.comment("Hide the HUD Quiver when not selecting a shootable item.").translation("hud_quiver.config.hide").define("HIDE", true);
+            this.FADE_QUEUE = builder.comment("Set the trailing arrows in the queue's color to be faded.").translation("hud_quiver.config.fade_queue").define("FADE_QUEUE", true);
             this.HORIZONTAL_OFFSET = builder.comment("The margin on the left of the HUD Quiver.").translation("hud_quiver.config.horizontal_offset").defineInRange("HORIZONTAL_OFFSET", 16, 0, 512);
             this.VERTICAL_OFFSET = builder.comment("The margin on the top of the HUD Quiver.").translation("hud_quiver.config.vertical_offset").defineInRange("VERTICAL_OFFSET", 16, 0, 512);
             this.SIZE = builder.comment("The width and height of the HUD Quiver.").translation("hud_quiver.config.size").defineInRange("SIZE", 24, 24, 192);
+            this.SPEED = builder.comment("The speed at which the HUD Quiver animates in and out.").translation("hud_quiver.config.speed").defineInRange("SPEED", 5, 1, 10);
             //builder.pop();
         }
     }
