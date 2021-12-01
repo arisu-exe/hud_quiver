@@ -1,12 +1,12 @@
 modLoader="javafml" #mandatory
-loaderVersion="[36,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+loaderVersion="[37,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 license="All rights reserved"
 issueTrackerURL="https://github.com/fallOut015/hud_quiver/issues" #optional
 [[mods]] #mandatory
 modId="hud_quiver" #mandatory
 version="${file.jarVersion}" #mandatory
 displayName="HUD Quiver" #mandatory
-updateJSONURL="https://raw.githubusercontent.com/fallOut015/hud_quiver/main/src/main/resources/updateJSONURL.json" #optional
+updateJSONURL="https://raw.githubusercontent.com/fallOut015/hud_quiver/main/src/main/resources/updates.json" #optional
 displayURL="https://www.curseforge.com/minecraft/mc-mods/hud-quiver" #optional
 logoFile="hud_quiver.png" #optional
 credits="Forge, tutorial makers, and my friends. A special thanks to Leo3418 for making a tutorial on how to make a GUI screen for the config." #optional
@@ -17,12 +17,12 @@ A bite-sized mod that adds an indicator for your arrows.
 [[dependencies.hud_quiver]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[36,)" #mandatory
+    versionRange="[37,)" #mandatory
     ordering="NONE"
     side="BOTH"
 [[dependencies.hud_quiver]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.5,1.17)"
+    versionRange="[1.17.1,1.18)"
     ordering="NONE"
     side="BOTH"
