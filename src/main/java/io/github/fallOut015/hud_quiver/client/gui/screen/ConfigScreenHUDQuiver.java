@@ -1,21 +1,9 @@
 package io.github.fallOut015.hud_quiver.client.gui.screen;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import io.github.fallOut015.hud_quiver.client.ConfigHUDQuiver;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.gui.widget.list.OptionsRowList;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.BooleanOption;
-import net.minecraft.client.settings.SliderPercentageOption;
-import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 
-import java.util.List;
 import java.util.Optional;
 
 // From https://leo3418.github.io/2021/03/31/forge-mod-config-screen-1-16.html
