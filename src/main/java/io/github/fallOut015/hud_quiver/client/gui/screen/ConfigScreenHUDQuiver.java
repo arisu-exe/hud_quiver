@@ -1,8 +1,11 @@
 package io.github.fallOut015.hud_quiver.client.gui.screen;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.fallOut015.hud_quiver.client.ConfigHUDQuiver;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
 
 import java.util.Optional;
 
@@ -48,10 +51,10 @@ public class ConfigScreenHUDQuiver extends Screen {
         }
     }
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
-        this.optionsRowList.render(matrixStack, mouseX, mouseY, partialTicks);
-        drawCenteredString(matrixStack, this.font, this.title.getString(), this.width / 2, 8, 0xFFFFFF);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(poseStack);
+        this.optionsRowList.render(poseStack, mouseX, mouseY, partialTicks);
+        drawCenteredString(poseStack, this.font, this.title.getString(), this.width / 2, 8, 0xFFFFFF);
+        super.render(poseStack, mouseX, mouseY, partialTicks);
     }
 }

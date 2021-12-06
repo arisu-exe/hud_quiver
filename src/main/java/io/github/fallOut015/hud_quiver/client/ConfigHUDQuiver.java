@@ -4,7 +4,7 @@ import io.github.fallOut015.hud_quiver.MainHUDQuiver;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.config.IConfigEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class ConfigHUDQuiver {
@@ -106,7 +106,7 @@ public class ConfigHUDQuiver {
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = MainHUDQuiver.MODID)
     public static class ModEvents {
         @SubscribeEvent
-        public static void onModConfigEvent(final ModConfig.ModConfigEvent event) {
+        public static void onModConfigEvent(final IConfigEvent event) {
             if(event.getConfig().getSpec() == ConfigHUDQuiver.CLIENT_SPEC) {
                 ConfigHUDQuiver.bakeConfig();
             }

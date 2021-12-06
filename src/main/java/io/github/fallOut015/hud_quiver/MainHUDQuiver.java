@@ -2,13 +2,22 @@ package io.github.fallOut015.hud_quiver;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import io.github.fallOut015.hud_quiver.client.gui.screen.ConfigScreenHUDQuiver;
 import io.github.fallOut015.hud_quiver.client.ConfigHUDQuiver;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -45,27 +54,27 @@ public class MainHUDQuiver {
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, screen) -> new ConfigScreenHUDQuiver(screen));
     }
 
-    public static List<ItemStack> findAmmos(PlayerEntity player, ItemStack shootable) {
-        if (!(shootable.getItem() instanceof ShootableItem)) {
+    public static List<ItemStack> findAmmos(Player player, ItemStack shootable) {
+        if (!(shootable.getItem() instanceof ProjectileWeaponItem)) {
             return Lists.newLinkedList();
         } else {
             List<ItemStack> list = Lists.newLinkedList();
 
-            Predicate<ItemStack> predicate = ((ShootableItem) shootable.getItem()).getSupportedHeldProjectiles();
-            ItemStack itemstack = ShootableItem.getHeldProjectile(player, predicate);
+            Predicate<ItemStack> predicate = ((ProjectileWeaponItem) shootable.getItem()).getSupportedHeldProjectiles();
+            ItemStack itemstack = ProjectileWeaponItem.getHeldProjectile(player, predicate);
             if (!itemstack.isEmpty()) {
                 list.add(itemstack);
             }
-            predicate = ((ShootableItem) shootable.getItem()).getAllSupportedProjectiles();
+            predicate = ((ProjectileWeaponItem) shootable.getItem()).getAllSupportedProjectiles();
 
-            for(int i = 0; i < player.inventory.getContainerSize(); ++i) {
-                ItemStack itemstack1 = player.inventory.getItem(i);
+            for(int i = 0; i < player.getInventory().getContainerSize(); ++i) {
+                ItemStack itemstack1 = player.getInventory().getItem(i);
                 if (predicate.test(itemstack1) && itemstack1 != itemstack) {
                     list.add(itemstack1);
                 }
             }
 
-            if(list.isEmpty() && player.abilities.instabuild) {
+            if(list.isEmpty() && player.isCreative()) {
                 list.add(new ItemStack(Items.ARROW));
             }
 
@@ -73,7 +82,7 @@ public class MainHUDQuiver {
         }
     }
     public static float bezier(float x, float min, float max) {
-        return MathHelper.clamp(((x * x) * (3 - 2 * x)) / (1 / (max - min)) + min, min, max);
+        return Mth.clamp(((x * x) * (3 - 2 * x)) / (1 / (max - min)) + min, min, max);
     }
 
     // TODO add hover descriptions for config values (same as config file comments)
@@ -91,21 +100,21 @@ public class MainHUDQuiver {
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
         public static void onRenderGameOverlay(final RenderGameOverlayEvent event) {
-            @Nullable ClientPlayerEntity player = Minecraft.getInstance().player;
+            @Nullable LocalPlayer player = Minecraft.getInstance().player;
 
             if(event.getType() == RenderGameOverlayEvent.ElementType.ALL && player != null) {
                 ItemStack playerHand;
 
                 boolean paused = Minecraft.getInstance().isPaused();
 
-                if(player.getMainHandItem().getItem() instanceof ShootableItem) {
+                if(player.getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
                     playerHand = player.getMainHandItem();
                     lastHeld = playerHand;
 
                     if(interpolation < 1.0f && !paused && ConfigHUDQuiver.hides()) {
                         interpolation += 0.002f * (float) ConfigHUDQuiver.getSpeed();
                     }
-                } else if(player.getOffhandItem().getItem() instanceof ShootableItem) {
+                } else if(player.getOffhandItem().getItem() instanceof ProjectileWeaponItem) {
                     playerHand = player.getOffhandItem();
                     lastHeld = playerHand;
 
@@ -139,16 +148,16 @@ public class MainHUDQuiver {
                 float left = ConfigHUDQuiver.getHorizontalOffset();
                 float top = ConfigHUDQuiver.getVerticalOffset();
 
-                MatrixStack matrixStack = event.getMatrixStack();
+                PoseStack poseStack = event.getMatrixStack();
 
-                matrixStack.pushPose();
-                matrixStack.translate(left, ConfigHUDQuiver.animates() ? bezier(interpolation, -top, top) : top, 0);
-                matrixStack.scale((float) ConfigHUDQuiver.getSize() / 24f, (float) ConfigHUDQuiver.getSize() / 24f, 1);
+                poseStack.pushPose();
+                poseStack.translate(left, ConfigHUDQuiver.animates() ? bezier(interpolation, -top, top) : top, 0);
+                poseStack.scale((float) ConfigHUDQuiver.getSize() / 24f, (float) ConfigHUDQuiver.getSize() / 24f, 1);
                 Minecraft.getInstance().getTextureManager().bind(WIDGETS);
-                AbstractGui.blit(matrixStack, -12, -12, 0, 0, 24, 24, 36, 24);
+                AbstractGui.blit(poseStack, -12, -12, 0, 0, 24, 24, 36, 24);
 
                 List<ItemStack> readyArrows;
-                if(player.getMainHandItem().getItem() instanceof ShootableItem || player.getOffhandItem().getItem() instanceof ShootableItem || !ConfigHUDQuiver.hides()) {
+                if(player.getMainHandItem().getItem() instanceof ProjectileWeaponItem || player.getOffhandItem().getItem() instanceof ProjectileWeaponItem || !ConfigHUDQuiver.hides()) {
                     readyArrows = findAmmos(player, playerHand);
                     lastReadyArrows = readyArrows;
                 } else {
@@ -159,8 +168,8 @@ public class MainHUDQuiver {
 
                 if(readyArrows != null) {
                     if(readyArrows.size() == 0) {
-                        matrixStack.translate(3, 1, 0);
-                        AbstractGui.drawString(matrixStack, Minecraft.getInstance().font, new StringTextComponent("0"), 0, 0, 16733525);
+                        poseStack.translate(3, 1, 0);
+                        AbstractGui.drawString(poseStack, Minecraft.getInstance().font, new StringTextComponent("0"), 0, 0, 16733525);
                     } else {
                         for(int i = 0; i < readyArrows.size(); ++ i) {
                             if(skips.contains(i)) {
@@ -170,63 +179,63 @@ public class MainHUDQuiver {
                             ItemStack readyArrow = readyArrows.get(i);
                             float x = ConfigHUDQuiver.getSize() * xMultiplier, y = 0 /*ConfigHUDQuiver.animates() ? bezier(interpolation, -top, top) : top*/;
 
-                            matrixStack.pushPose();
-                            matrixStack.translate(x, y, i + 1);
-                            matrixStack.scale(16, -16, 1);
-                            matrixStack.mulPose(Vector3f.YP.rotationDegrees(180));
-                            matrixStack.mulPose(Vector3f.XP.rotationDegrees(360));
+                            poseStack.pushPose();
+                            poseStack.translate(x, y, i + 1);
+                            poseStack.scale(16, -16, 1);
+                            poseStack.mulPose(Vector3f.YP.rotationDegrees(180));
+                            poseStack.mulPose(Vector3f.XP.rotationDegrees(360));
                             IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().renderBuffers().bufferSource();
                             RenderSystem.enableDepthTest();
                             RenderSystem.disableCull();
-                            Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 || !ConfigHUDQuiver.queueFades() ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, matrixStack, buffer);
+                            Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 || !ConfigHUDQuiver.queueFades() ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, poseStack, buffer);
                             buffer.endBatch();
-                            matrixStack.popPose();
+                            poseStack.popPose();
                             RenderSystem.enableCull();
                             RenderSystem.disableDepthTest();
                             if(EnchantmentHelper.getItemEnchantmentLevel(Enchantments.MULTISHOT, playerHand) > 0) {
-                                matrixStack.pushPose();
+                                poseStack.pushPose();
                                 if(readyArrow.getItem() == Items.FIREWORK_ROCKET) {
-                                    matrixStack.translate(x - 5, y + 3, i + 1);
+                                    poseStack.translate(x - 5, y + 3, i + 1);
                                 } else {
-                                    matrixStack.translate(x - 4, y - 1, i + 1);
+                                    poseStack.translate(x - 4, y - 1, i + 1);
                                 }
-                                matrixStack.scale(10, -10, 1);
-                                matrixStack.mulPose(Vector3f.YP.rotationDegrees(180));
-                                matrixStack.mulPose(Vector3f.XP.rotationDegrees(360));
+                                poseStack.scale(10, -10, 1);
+                                poseStack.mulPose(Vector3f.YP.rotationDegrees(180));
+                                poseStack.mulPose(Vector3f.XP.rotationDegrees(360));
                                 if(readyArrow.getItem() == Items.FIREWORK_ROCKET) {
-                                    matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-20));
+                                    poseStack.mulPose(Vector3f.ZP.rotationDegrees(-20));
                                 } else {
-                                    matrixStack.mulPose(Vector3f.ZP.rotationDegrees(-30));
+                                    poseStack.mulPose(Vector3f.ZP.rotationDegrees(-30));
                                 }
                                 IRenderTypeBuffer.Impl buffer2 = Minecraft.getInstance().renderBuffers().bufferSource();
                                 RenderSystem.enableDepthTest();
                                 RenderSystem.disableCull();
-                                Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 || !ConfigHUDQuiver.queueFades() ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, matrixStack, buffer);
+                                Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 || !ConfigHUDQuiver.queueFades() ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, poseStack, buffer);
                                 buffer2.endBatch();
-                                matrixStack.popPose();
+                                poseStack.popPose();
                                 RenderSystem.enableCull();
                                 RenderSystem.disableDepthTest();
 
-                                matrixStack.pushPose();
+                                poseStack.pushPose();
                                 if(readyArrow.getItem() == Items.FIREWORK_ROCKET) {
-                                    matrixStack.translate(x + 5, y + 3, i + 1);
+                                    poseStack.translate(x + 5, y + 3, i + 1);
                                 } else {
-                                    matrixStack.translate(x + 1, y + 4, i + 1);
+                                    poseStack.translate(x + 1, y + 4, i + 1);
                                 }
-                                matrixStack.scale(10, -10, 1);
-                                matrixStack.mulPose(Vector3f.YP.rotationDegrees(180));
-                                matrixStack.mulPose(Vector3f.XP.rotationDegrees(360));
+                                poseStack.scale(10, -10, 1);
+                                poseStack.mulPose(Vector3f.YP.rotationDegrees(180));
+                                poseStack.mulPose(Vector3f.XP.rotationDegrees(360));
                                 if(readyArrow.getItem() == Items.FIREWORK_ROCKET) {
-                                    matrixStack.mulPose(Vector3f.ZP.rotationDegrees(20));
+                                    poseStack.mulPose(Vector3f.ZP.rotationDegrees(20));
                                 } else {
-                                    matrixStack.mulPose(Vector3f.ZP.rotationDegrees(30));
+                                    poseStack.mulPose(Vector3f.ZP.rotationDegrees(30));
                                 }
                                 IRenderTypeBuffer.Impl buffer3 = Minecraft.getInstance().renderBuffers().bufferSource();
                                 RenderSystem.enableDepthTest();
                                 RenderSystem.disableCull();
-                                Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 || !ConfigHUDQuiver.queueFades() ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, matrixStack, buffer);
+                                Minecraft.getInstance().getItemRenderer().renderStatic(readyArrow, ItemCameraTransforms.TransformType.FIXED, i == 0 || !ConfigHUDQuiver.queueFades() ? 15728880 : 14540253, OverlayTexture.NO_OVERLAY, poseStack, buffer);
                                 buffer3.endBatch();
-                                matrixStack.popPose();
+                                poseStack.popPose();
                                 RenderSystem.enableCull();
                                 RenderSystem.disableDepthTest();
                             }
@@ -246,27 +255,27 @@ public class MainHUDQuiver {
                             }
                             boolean hasCrossbowCeaseless = playerHand.getItem() == Items.CROSSBOW && EnchantmentHelper.getEnchantments(playerHand).keySet().stream().map(ForgeRegistryEntry::getRegistryName).filter(Objects::nonNull).anyMatch(name -> name.toString().equals("enigmaticlegacy:ceaseless"));
 
-                            matrixStack.pushPose();
+                            poseStack.pushPose();
                             if(hasCrossbowCeaseless || player.isCreative() || (readyArrow.getItem() instanceof ArrowItem && ((ArrowItem) readyArrow.getItem()).isInfinite(readyArrow, playerHand, player))) {
-                                matrixStack.translate(x + 3, y + 5, i + 1 + readyArrows.size());
+                                poseStack.translate(x + 3, y + 5, i + 1 + readyArrows.size());
                                 Minecraft.getInstance().getTextureManager().bind(WIDGETS);
-                                AbstractGui.blit(matrixStack, -6, -4, 24, i == 0 || !ConfigHUDQuiver.queueFades() ? 0 : 8, 12, 8, 36, 24);
+                                AbstractGui.blit(poseStack, -6, -4, 24, i == 0 || !ConfigHUDQuiver.queueFades() ? 0 : 8, 12, 8, 36, 24);
                             } else {
-                                boolean using = player.getUseItemRemainingTicks() > 0 && readyArrow == player.getProjectile(playerHand) && player.getUseItem().getItem() instanceof ShootableItem;
+                                boolean using = player.getUseItemRemainingTicks() > 0 && readyArrow == player.getProjectile(playerHand) && player.getUseItem().getItem() instanceof ProjectileWeaponItem;
                                 String displayCount = using ? String.valueOf(count - 1) : String.valueOf(count);
                                 int length = displayCount.length();
                                 int color = i == 0 || !ConfigHUDQuiver.queueFades() ? (using ? (count - 1 == 0 ? 16733525 /*red*/ : 16777045 /*yellow*/) : 16777215 /*white*/) : 10066329 /*gray*/; // yay for ternaries
-                                matrixStack.translate(Math.round(x + 9 - (6 * length)), Math.round(y + 1), 0);
-                                AbstractGui.drawString(matrixStack, Minecraft.getInstance().font, new StringTextComponent(displayCount), 0, 0, color);
+                                poseStack.translate(Math.round(x + 9 - (6 * length)), Math.round(y + 1), 0);
+                                AbstractGui.drawString(poseStack, Minecraft.getInstance().font, new StringTextComponent(displayCount), 0, 0, color);
                             }
-                            matrixStack.popPose();
+                            poseStack.popPose();
 
                             ++ xMultiplier;
                         }
                     }
                 }
 
-                matrixStack.popPose();
+                poseStack.popPose();
             }
         }
     }
