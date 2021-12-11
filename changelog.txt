@@ -1,3 +1,8 @@
+Build: 1.17.1-37.1.1 - Fri Dec 10 09:43:11 GMT 2021
+	oriondevelopment:
+		[CVE-2021-44228]: Update Log4J to fix the security issue inside it. (#8269)
+
+=========
 Build: 1.17.1-37.1.0 - Tue Nov 30 16:58:27 GMT 2021
 	lexmanos:
 		Bump version for final RB of 1.17's lifecycle. Move on to 1.18!
@@ -53,7 +58,7 @@ Build: 1.17.1-37.0.120 - Thu Nov 25 18:59:09 GMT 2021
 
 =========
 Build: 1.17.1-37.0.119 - Thu Nov 25 10:14:28 GMT 2021
-	contact:
+	sekwah41:
 		Fix render pipeline lighting issue with small cubes (#8158)
 		
 		This will also allow other mods which need to calculate small normalised vectors to be able to use the default classes without needing to write their own, while not effecting any side effects created by how the base game uses this function.
@@ -181,7 +186,7 @@ Build: 1.17.1-37.0.94 - Fri Oct 15 03:12:02 GMT 2021
 	dev:
 		Fix Entity#onAddedToWorld not being called for non-player entities server-side (#8134)
 
-	Mato.dipcar:
+	dipo33:
 		Add helper methods to generate blockstate and models for button, pressure plate, sign to BlockStateProvider/ModelProvider (#8139)
 
 =========
@@ -276,7 +281,7 @@ Build: 1.17.1-37.0.78 - Sun Oct 03 18:12:16 GMT 2021
 
 =========
 Build: 1.17.1-37.0.76 - Sun Oct 03 18:00:24 GMT 2021
-	github:
+	shroomdog27:
 		Fix Signs breaking with custom `WoodType`s (#8132)
 
 =========
